@@ -1,0 +1,71 @@
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+------
+   The server generated these startup warnings when booting
+   2025-10-13T14:07:10.585+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> use madhu
+switched to db madhu
+madhu> db.createCollection("CricketBoard")
+{ ok: 1 }
+madhu> db.CricketBoard.insertOne({Boardid:"BID01",NAME:"Chennai cricket board",Address:"chennai",phone:"9959153797"});
+{
+  acknowledged: true,
+  insertedId: ObjectId('68ecbec2bc9630137dcebea4')
+}
+madhu> db.CricketBoard.Find().pretty()
+TypeError: db.CricketBoard.Find is not a function
+madhu> db.CricketBoard.find().Pretty()
+TypeError: db.CricketBoard.find().Pretty is not a function
+madhu> db.CricketBoard.find().pretty()
+[
+  {
+    _id: ObjectId('68ecbec2bc9630137dcebea4'),
+    Boardid: 'BID01',
+    NAME: 'Chennai cricket board',
+    Address: 'chennai',
+    phone: '9959153797'
+  }
+]
+madhu> db.CricketBoard.insertMany([{Boardid:"BID02",NAME:"Tiruvallur cricket board",Address:"chennai",phone:"9944332211"},{Boardid:"BID03",NAME:"Trichy cricket board",Address:"Trichy",phone:"9123456780"},{Boardid:"BID04",NAME:"Madurai cricket board",Address:"Madurai",phone:"9123456780"}]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68ecc2b0bc9630137dcebea5'),
+    '1': ObjectId('68ecc2b0bc9630137dcebea6'),
+    '2': ObjectId('68ecc2b0bc9630137dcebea7')
+  }
+}
+madhu> db.CricketBoard.deleteOne({Boardid:"BID04"})
+{ acknowledged: true, deletedCount: 1 }
+madhu> db.CricketBoard.find().pretty()
+[
+  {
+    _id: ObjectId('68ecbec2bc9630137dcebea4'),
+    Boardid: 'BID01',
+    NAME: 'Chennai cricket board',
+    Address: 'chennai',
+    phone: '9959153797'
+  },
+  {
+    _id: ObjectId('68ecc2b0bc9630137dcebea5'),
+    Boardid: 'BID02',
+    NAME: 'Tiruvallur cricket board',
+    Address: 'chennai',
+    phone: '9944332211'
+  },
+  {
+    _id: ObjectId('68ecc2b0bc9630137dcebea6'),
+    Boardid: 'BID03',
+    NAME: 'Trichy cricket board',
+    Address: 'Trichy',
+    phone: '9123456780'
+  }
+]
+madhu>
