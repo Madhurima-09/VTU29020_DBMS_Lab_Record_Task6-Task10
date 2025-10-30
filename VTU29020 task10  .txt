@@ -1,0 +1,495 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Oct 17 21:19:57 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: system
+Enter password:
+Connected.
+SQL> desc Board;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BOARDID                                   NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(100)
+ ADDRESS                                            VARCHAR2(255)
+ CONTACT_NO                                         VARCHAR2(15)
+
+SQL> desc Team;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TEAM_ID                                   NOT NULL VARCHAR2(20)
+ TEAMNAME                                           VARCHAR2(25)
+ RESULT                                             VARCHAR2(10)
+ WINNINGMATCHES                                     VARCHAR2(25)
+
+SQL> create table Team1(Team_id INT PRIMARY KEY,TName VARCHAR2(100),Coach VARCHAR2(50),Captain VARCHAR2(35),BOARDID INT,FOREIGN KEY(BOARDID) REFERENCES BOARD(BOARDID));
+
+Table created.
+
+
+SQL> CREATE TABLE Player1(
+  2    PlayerID INT PRIMARY KEY,
+  3    PFName VARCHAR(100),
+  4    PLName VARCHAR(100),
+  5    Age INT,
+  6    PDateofBirth DATE,
+  7    PlayingRole VARCHAR(50),
+  8    email VARCHAR(100),
+  9    contact_no VARCHAR(15),
+ 10    Batting VARCHAR(50),
+ 11    Bowling VARCHAR(50),
+ 12    TeamID INT,
+ 13    FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+ 14  );
+  FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+                                       *
+
+SQL>  drop table Team1;
+
+Table dropped.
+
+SQL> CREATE TABLE Team1(TeamID INT PRIMARY KEY,TName VARCHAR(100),Coach VARCHAR(100),Captain VARCHAR(100),BoardID INT,FOREIGN KEY (BoardID) REFERENCES Board(BoardID));
+
+Table created.
+
+SQL> CREATE TABLE Player1(
+  2    PlayerID INT PRIMARY KEY,
+  3    PFName VARCHAR(100),
+  4    PLName VARCHAR(100),
+  5    Age INT,
+  6    PDateofBirth DATE,
+  7    PlayingRole VARCHAR(50),
+  8    email VARCHAR(100),
+  9    contact_no VARCHAR(15),
+ 10    Batting VARCHAR(50),
+ 11    Bowling VARCHAR(50),
+ 12    TeamID INT,
+ 13    FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+ 14  );
+  FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+                                       *
+ERROR at line 13:
+ORA-00904: "TEAMID": invalid identifier
+
+
+SQL> CREATE TABLE Player1(
+  2    PlayerID INT PRIMARY KEY,
+  3    PFName VARCHAR(100),
+  4    PLName VARCHAR(100),
+  5    Age INT,
+  6    PDateofBirth DATE,
+  7    PlayingRole VARCHAR(50),
+  8    email VARCHAR(100),
+  9    contact_no VARCHAR(15),
+ 10    Batting VARCHAR(50),
+ 11    Bowling VARCHAR(50),
+ 12    TeamID INT,
+ 13    FOREIGN KEY (TeamID) REFERENCES Team1(TeamID)
+ 14  );
+
+Table created.
+
+SQL> CREATE TABLE Ground1(
+  2    GroundID INT PRIMARY KEY,
+  3    GName VARCHAR(100),
+  4    Location VARCHAR(255),
+  5    Capacity INT
+  6  );
+
+Table created.
+
+SQL> CREATE TABLE Umpire1 (
+  2    UmpireID INT PRIMARY KEY,
+  3    UFName VARCHAR(100),
+  4    ULName VARCHAR(100),
+  5    UAge INT,
+  6    UDateofBirth DATE,
+  7    Country VARCHAR(100),
+  8    Uemail VARCHAR(100),
+  9    Ucontact_no VARCHAR(15)
+ 10  );
+
+Table created.
+
+SQL> CREATE TABLE MatchDetails1 (
+  2    MatchID INT PRIMARY KEY,
+  3    Match_Date DATE,
+  4    Time1 TIME,
+  5    Result VARCHAR(100),
+  6    GroundID INT,
+  7    UmpireID INT,
+  8    FOREIGN KEY (GroundID) REFERENCES Ground1(GroundID),
+  9    FOREIGN KEY (UmpireID) REFERENCES Umpire1(UmpireID)
+ 10  );
+
+SQL> CREATE TABLE MatchDetails1 (
+  2    MatchID INT PRIMARY KEY,
+  3    Match_Date DATE,
+  4    Time TIME,
+  5    Result VARCHAR(100),
+  6    GroundID INT,
+  7    UmpireID INT,
+  8    FOREIGN KEY (GroundID) REFERENCES Ground1(GroundID),
+  9    FOREIGN KEY (UmpireID) REFERENCES Umpire1(UmpireID)
+ 10  );
+  Time TIME,
+       *
+ERROR at line 4:
+ORA-00902: invalid datatype
+
+
+SQL> CREATE TABLE MatchDetails1 (
+  2    MatchID INT PRIMARY KEY,
+  3    Match_Date DATE,
+  4    Result VARCHAR(100),
+  5    GroundID INT,
+  6    UmpireID INT,
+  7    FOREIGN KEY (GroundID) REFERENCES Ground1(GroundID),
+  8    FOREIGN KEY (UmpireID) REFERENCES Umpire1(UmpireID)
+  9  );
+
+Table created.
+
+SQL> CREATE TABLE Player_Match1(
+  2    PlayerID INT,
+  3    MatchID INT,
+  4    PRIMARY KEY (PlayerID, MatchID),
+  5    FOREIGN KEY (PlayerID) REFERENCES Player1(PlayerID),
+  6    FOREIGN KEY (MatchID) REFERENCES MatchDetails1(MatchID)
+  7  );
+
+Table created.
+
+SQL> INSERT INTO Board VALUES (1, 'Indian Cricket Board', 'Mumbai, India', '9876543210');
+
+1 row created.
+
+SQL> INSERT INTO Team VALUES (101, 'Chennai Super Kings', 'Stephen Fleming', 'MS Dhoni', 1);
+INSERT INTO Team VALUES (101, 'Chennai Super Kings', 'Stephen Fleming', 'MS Dhoni', 1)
+            *
+SQL> INSERT INTO Team1 VALUES (101, 'Chennai Super Kings', 'Stephen Fleming', 'MS Dhoni', 1);
+
+1 row created.
+
+SQL> INSERT INTO Ground1 VALUES (201, 'Eden Gardens', 'Kolkata', 68000);
+
+1 row created.
+
+
+
+SQL> desc Board;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BOARDID                                   NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(100)
+ ADDRESS                                            VARCHAR2(255)
+ CONTACT_NO                                         VARCHAR2(15)
+
+SQL> desc Team1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TEAMID                                    NOT NULL NUMBER(38)
+ TNAME                                              VARCHAR2(100)
+ COACH                                              VARCHAR2(100)
+ CAPTAIN                                            VARCHAR2(100)
+ BOARDID                                            NUMBER(38)
+
+SQL> desc player1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PLAYERID                                  NOT NULL NUMBER(38)
+ PFNAME                                             VARCHAR2(100)
+ PLNAME                                             VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ PDATEOFBIRTH                                       DATE
+ PLAYINGROLE                                        VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ CONTACT_NO                                         VARCHAR2(15)
+ BATTING                                            VARCHAR2(50)
+ BOWLING                                            VARCHAR2(50)
+ TEAMID                                             NUMBER(38)
+
+SQL> desc ground1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ GROUNDID                                  NOT NULL NUMBER(38)
+ GNAME                                              VARCHAR2(100)
+ LOCATION                                           VARCHAR2(255)
+ CAPACITY                                           NUMBER(38)
+
+SQL> desc umpire1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ UMPIREID                                  NOT NULL NUMBER(38)
+ UFNAME                                             VARCHAR2(100)
+ ULNAME                                             VARCHAR2(100)
+ UAGE                                               NUMBER(38)
+ UDATEOFBIRTH                                       DATE
+ COUNTRY                                            VARCHAR2(100)
+ UEMAIL                                             VARCHAR2(100)
+ UCONTACT_NO                                        VARCHAR2(15)
+
+SQL> desc match1;
+ERROR:
+ORA-04043: object match1 does not exist
+
+
+SQL> desc match;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MATCH_ID                                  NOT NULL VARCHAR2(30)
+ LOCATION                                           VARCHAR2(30)
+ UMPIREID                                           VARCHAR2(10)
+
+SQL> CREATE TABLE MatchDetails1 (
+  2    MatchID INT PRIMARY KEY,
+  3    Match_Date DATE,
+  4    Result VARCHAR(100),
+  5    GroundID INT,
+  6    UmpireID INT,
+  7    FOREIGN KEY (GroundID) REFERENCES Ground1(GroundID),
+  8    FOREIGN KEY (UmpireID) REFERENCES Umpire1(UmpireID)
+  9  );
+CREATE TABLE MatchDetails1 (
+             *
+
+SQL> desc matchdetails1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MATCHID                                   NOT NULL NUMBER(38)
+ MATCH_DATE                                         DATE
+ RESULT                                             VARCHAR2(100)
+ GROUNDID                                           NUMBER(38)
+ UMPIREID                                           NUMBER(38)
+
+SQL> CREATE TABLE Player_Match1(
+  2    PlayerID INT,
+  3    MatchID INT,
+  4    PRIMARY KEY (PlayerID, MatchID),
+  5    FOREIGN KEY (PlayerID) REFERENCES Player1(PlayerID),
+  6    FOREIGN KEY (MatchID) REFERENCES MatchDetails1(MatchID)
+  7  );
+CREATE TABLE Player_Match1(
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> desc player_match1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PLAYERID                                  NOT NULL NUMBER(38)
+ MATCHID                                   NOT NULL NUMBER(38)
+
+SQL> select * from player_match;
+select * from player_match
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from player_match1;
+
+no rows selected
+
+SQL> select * from board;
+
+   BOARDID
+----------
+NAME
+--------------------------------------------------------------------------------
+ADDRESS
+--------------------------------------------------------------------------------
+CONTACT_NO
+---------------
+         1
+Indian Cricket Board
+Mumbai, India
+9876543210
+
+
+SQL> select * from umpire1;
+
+no rows selected
+
+SQL> select * from ground1;
+
+  GROUNDID
+----------
+GNAME
+--------------------------------------------------------------------------------
+LOCATION
+--------------------------------------------------------------------------------
+  CAPACITY
+----------
+       201
+Eden Gardens
+Kolkata
+     68000
+
+
+SQL> select * from team1;
+
+    TEAMID
+----------
+TNAME
+--------------------------------------------------------------------------------
+COACH
+--------------------------------------------------------------------------------
+CAPTAIN
+--------------------------------------------------------------------------------
+   BOARDID
+----------
+       101
+Chennai Super Kings
+Stephen Fleming
+
+    TEAMID
+----------
+TNAME
+--------------------------------------------------------------------------------
+COACH
+--------------------------------------------------------------------------------
+CAPTAIN
+--------------------------------------------------------------------------------
+   BOARDID
+----------
+MS Dhoni
+         1
+
+
+SQL> select * from player1;
+
+no rows selected
+
+SQL> desc player1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PLAYERID                                  NOT NULL NUMBER(38)
+ PFNAME                                             VARCHAR2(100)
+ PLNAME                                             VARCHAR2(100)
+ AGE                                                NUMBER(38)
+ PDATEOFBIRTH                                       DATE
+ PLAYINGROLE                                        VARCHAR2(50)
+ EMAIL                                              VARCHAR2(100)
+ CONTACT_NO                                         VARCHAR2(15)
+ BATTING                                            VARCHAR2(50)
+ BOWLING                                            VARCHAR2(50)
+ TEAMID                                             NUMBER(38)
+
+
+
+SQL> INSERT INTO Player_Match1 VALUES (1001, 401);
+INSERT INTO Player_Match1 VALUES (1001, 401)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C007196) violated - parent key not
+found
+
+
+SQL> desc player-match1;
+SP2-0565: Illegal identifier.
+SQL> desc Player-Match1;
+SP2-0565: Illegal identifier.
+SQL> desc Player_Match1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PLAYERID                                  NOT NULL NUMBER(38)
+ MATCHID                                   NOT NULL NUMBER(38)
+
+
+SQL> select P.PFName,P.PLName from player1 p JOIN PLAYER_MATCH1 PM ON p.playerid=PM.playerid WHERE PM.MatchID=401;
+
+no rows selected
+
+SQL> select * from board where BoardId='1';
+
+   BOARDID
+----------
+NAME
+--------------------------------------------------------------------------------
+ADDRESS
+--------------------------------------------------------------------------------
+CONTACT_NO
+---------------
+         1
+Indian Cricket Board
+Mumbai, India
+9876543210
+
+SQL> CREATE TABLE FunctionalDependencies (
+  2      Determinant VARCHAR(50) NOT NULL,
+  3      Dependent VARCHAR(200) NOT NULL
+  4  );
+
+Table created.
+
+SQL> desc functionalDependencies;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DETERMINANT                               NOT NULL VARCHAR2(50)
+ DEPENDENT                                 NOT NULL VARCHAR2(200)
+
+SQL> INSERT INTO FunctionalDependencies (Determinant, Dependent)
+  2  VALUES
+  3  ('BoardID', 'Name, Address, Contact_No'),
+  4  ('TeamID', 'TName, Coach, Captain, BoardID'),
+  5  ('PlayerID', 'PFName, PLName, Age, PDateofBirth, PlayingRole, email, contact_no, Batting, Bowling, TeamID'),
+  6  ('MatchID', 'Match_Date, Time1, Result, GroundID'),
+  7  ('GroundID', 'GName, Location, Capacity'),
+  8  ('UmpireID', 'UFName, ULName, UAge, UDateofBirth, Country, Uemail, Ucontact_no');
+('BoardID', 'Name, Address, Contact_No'),
+                                        *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended
+
+SQL> create table CaninicalCover (Determinant VARCHAR2(39),Dependent VARCHAR2(50));
+
+Table created.
+
+SQL> desc CanonicalCover;
+ERROR:
+ORA-04043: object CanonicalCover does not exist
+
+
+SQL> desc CanincalCover;
+ERROR:
+ORA-04043: object CanincalCover does not exist
+
+
+SQL> desc CaninicalCover;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DETERMINANT                                        VARCHAR2(39)
+ DEPENDENT                                          VARCHAR2(50)
+
+SQL> INSERT INTO CaninicalCover VALUES('&DETEMINANT','&DEPENDENT');
+Enter value for deteminant: d01
+Enter value for dependent: D01
+old   1: INSERT INTO CaninicalCover VALUES('&DETEMINANT','&DEPENDENT')
+new   1: INSERT INTO CaninicalCover VALUES('d01','D01')
+
+1 row created.
+
+SQL> /
+Enter value for deteminant: d02
+Enter value for dependent: D02
+old   1: INSERT INTO CaninicalCover VALUES('&DETEMINANT','&DEPENDENT')
+new   1: INSERT INTO CaninicalCover VALUES('d02','D02')
+
+1 row created.
+
+SQL> select * from CaninicalCover;
+
+DETERMINANT
+---------------------------------------
+DEPENDENT
+--------------------------------------------------
+d01
+D01
+
+d02
+D02
+
+
